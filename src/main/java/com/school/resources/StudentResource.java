@@ -1,12 +1,17 @@
 package com.school.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.school.exceptions.ResourceNotFoundException;
 import com.school.model.dao.CourseDao;
@@ -51,6 +56,26 @@ public class StudentResource {
 
 		return ResponseEntity.ok().body(students);
 
+	}
+
+	@PostMapping
+	public ResponseEntity<Student> insert(@RequestBody Student student) {
+		StudentDao studentDao = DaoFactory.createStudentDao();
+		student = studentDao.insert(student);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(student.getId())
+				.toUri();
+
+		return ResponseEntity.created(uri).body(student);
+
+	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Student> update(@PathVariable Integer id, @RequestBody Student student) {
+		StudentDao studentDao = DaoFactory.createStudentDao();
+		student = studentDao.update(student, id);
+
+		return ResponseEntity.ok().body(student);
 	}
 
 }

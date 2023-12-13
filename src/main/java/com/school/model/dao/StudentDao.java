@@ -12,4 +12,8 @@ public interface StudentDao {
 
 	List<Student> findByCourse(Integer idCourse);
 
+	Student insert(Student student);
+
+	Student update(Student student, Integer id);
+
 }
