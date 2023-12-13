@@ -16,4 +16,6 @@ public interface CourseDao {
 
 	Course update(Course course, Integer id);
 
+	void deleteById(Integer id);
+
 }
