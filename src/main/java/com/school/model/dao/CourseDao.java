@@ -10,4 +10,8 @@ public interface CourseDao {
 
 	Course findById(Integer id);
 
+	Course insert(Course course);
+
+	Course update(Course course, Integer id);
+
 }

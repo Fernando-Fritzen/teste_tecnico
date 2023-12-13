@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,53 @@ public class CourseDaoJDBC implements CourseDao {
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public Course insert(Course course) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("INSERT INTO course (description) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+
+			st.setString(1, course.getDescription());
+
+			int rowsAffected = st.executeUpdate();
+
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					course.setId(id);
+				}
+			} else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+
+			return course;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+	}
+
+	@Override
+	public Course update(Course course, Integer id) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("UPDATE course SET description = ? WHERE id = ?");
+
+			st.setString(1, course.getDescription());
+			st.setInt(2, id);
+
+			st.executeUpdate();
+
+			return course;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
 		}
 	}
 
