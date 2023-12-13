@@ -69,6 +69,38 @@ public class CourseDaoJDBC implements CourseDao {
 			DB.closeResultSet(rs);
 		}
 	}
+	
+	@Override
+	public List<Course> findWithoutRegistrations() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conn.prepareStatement(
+					"SELECT course.id, course.description "
+					+ "FROM course "
+					+ "LEFT JOIN registration ON course.id = registration.id_course "
+					+ "WHERE registration.id IS NULL");
+
+			rs = st.executeQuery();
+
+			List<Course> courses = new ArrayList<>();
+
+			while (rs.next()) {
+				Course course = new Course();
+				course.setId(rs.getInt("id"));
+				course.setDescription(rs.getString("description"));
+
+				courses.add(course);
+			}
+			return courses;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
 
 	@Override
 	public Course insert(Course course) {

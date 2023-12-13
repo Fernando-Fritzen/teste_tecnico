@@ -41,6 +41,15 @@ public class CourseResource {
 		return ResponseEntity.ok().body(course);
 	}
 
+	@GetMapping(value = "/without-registrations")
+	public ResponseEntity<List<Course>> findWithoutRegistrations() {
+		CourseDao courseDao = DaoFactory.createCourseDao();
+		List<Course> courses = courseDao.findWithoutRegistrations();
+
+		return ResponseEntity.ok().body(courses);
+
+	}
+
 	@PostMapping
 	public ResponseEntity<Course> insert(@RequestBody Course course) {
 		CourseDao courseDao = DaoFactory.createCourseDao();

@@ -10,6 +10,8 @@ public interface CourseDao {
 
 	Course findById(Integer id);
 
+	List<Course> findWithoutRegistrations();
+
 	Course insert(Course course);
 
 	Course update(Course course, Integer id);
