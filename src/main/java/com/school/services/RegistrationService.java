@@ -40,4 +40,16 @@ public class RegistrationService {
 
 		return registrationDao.isStudentAlreadyRegistered(idStudent, idCourse);
 	}
+
+	public void deleteByCourse(Integer idCourse) {
+		RegistrationDao registrationDao = DaoFactory.createRegistrationDao();
+
+		registrationDao.deleteByCourse(idCourse);
+	}
+
+	public void deleteByStudent(Integer idStudent) {
+		RegistrationDao registrationDao = DaoFactory.createRegistrationDao();
+
+		registrationDao.deleteByStudent(idStudent);
+	}
 }

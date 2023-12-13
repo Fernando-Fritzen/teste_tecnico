@@ -16,6 +16,9 @@ public class StudentService {
 	@Autowired
 	CourseService courseService;
 
+	@Autowired
+	RegistrationService registrationService;
+
 	public List<Student> findAll() {
 		StudentDao studentDao = DaoFactory.createStudentDao();
 		return studentDao.findAll();
@@ -48,6 +51,14 @@ public class StudentService {
 	public Student update(Student student, Integer id) {
 		StudentDao studentDao = DaoFactory.createStudentDao();
 		return studentDao.update(student, id);
+	}
+
+	public void deleteById(Integer id) {
+		StudentDao studentDao = DaoFactory.createStudentDao();
+
+		registrationService.deleteByStudent(id);
+		studentDao.deleteById(id);
+
 	}
 
 }
