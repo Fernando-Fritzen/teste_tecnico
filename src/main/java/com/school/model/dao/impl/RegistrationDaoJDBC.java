@@ -75,4 +75,40 @@ public class RegistrationDaoJDBC implements RegistrationDao {
 			DB.closeResultSet(rs);
 		}
 	}
+	
+	@Override
+	public void deleteByCourse(Integer idCourse) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM registration WHERE id_course = ?");
+			
+			st.setInt(1, idCourse);
+			
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
+	}
+	
+	@Override
+	public void deleteByStudent(Integer idStudent) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM registration WHERE id_student = ?");
+			
+			st.setInt(1, idStudent);
+			
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
+	}
 }

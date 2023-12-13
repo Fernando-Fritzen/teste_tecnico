@@ -8,4 +8,8 @@ public interface RegistrationDao {
 
 	Boolean isStudentAlreadyRegistered(Integer idStudent, Integer idCourse);
 
+	void deleteByCourse(Integer idCourse);
+
+	void deleteByStudent(Integer idStudent);
+
 }
