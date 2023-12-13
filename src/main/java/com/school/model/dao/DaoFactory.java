@@ -2,6 +2,7 @@ package com.school.model.dao;
 
 import com.school.db.DB;
 import com.school.model.dao.impl.CourseDaoJDBC;
+import com.school.model.dao.impl.RegistrationDaoJDBC;
 import com.school.model.dao.impl.StudentDaoJDBC;
 
 public class DaoFactory {
@@ -14,4 +15,7 @@ public class DaoFactory {
 		return new StudentDaoJDBC(DB.getConnection());
 	}
 
+	public static RegistrationDao createRegistrationDao() {
+		return new RegistrationDaoJDBC(DB.getConnection());
+	}
 }
